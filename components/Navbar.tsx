@@ -4,9 +4,15 @@ import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { SearchIcon } from "./icons/SearchIcon";
 import Link from "next/link";
+import { useNewsContext } from "@/app/context/NewsContext";
 
 export const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const { searchQuery, setSearchQuery } = useNewsContext();
+
+  const handleSearchChangeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   // Function to handle scroll event
   const handleScroll = () => {
@@ -35,7 +41,12 @@ export const Navbar = () => {
           Home
         </Link>
         <div className="relative flex items-center">
-          <Input placeholder="Search" className="w-60" />
+          <Input
+            placeholder="Search"
+            className="w-60"
+            value={searchQuery}
+            onChange={handleSearchChangeEvent}
+          />
           <div className="absolute right-4">
             <SearchIcon />
           </div>

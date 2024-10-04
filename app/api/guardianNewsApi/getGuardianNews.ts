@@ -1,4 +1,5 @@
 import { API_KEYS, API_URLS } from "@/lib/constants";
+import { Data } from "@/lib/types";
 import { fetchData } from "@/lib/utils";
 
 interface GuardianNewsApiResponse {
@@ -28,7 +29,7 @@ export async function getGuardianNewsArticles(params: {
 
 export async function getGuardianNewsArticleById(id: string) {
   const url = `${API_URLS.GUARDIAN_API}/${id}`;
-  const response = await fetchData<any>(url, {
+  const response = await fetchData<Data>(url, {
     "api-key": API_KEYS.GUARDIAN_API,
     "show-fields": "thumbnail",
     "show-related": "true",
