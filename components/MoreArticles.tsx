@@ -3,9 +3,10 @@ import { PostCard } from "./PostCard";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRouter } from "next/navigation";
+import { Data } from "@/lib/types";
 
 interface Props {
-  data: any;
+  data: Data[];
 }
 
 export const MoreArticles = ({ data }: Props) => {

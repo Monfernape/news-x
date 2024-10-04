@@ -19,8 +19,6 @@ export const NewsFeed = ({ articlesList }: Props) => {
 
   const [articles, setArticles] = useState(articlesList);
 
-  console.log("articlesList", articlesList, searchQuery);
-
   async function handleUniversalSearch() {
     const articlesList = await fetchNewsData(searchQuery);
 
