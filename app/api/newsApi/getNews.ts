@@ -17,12 +17,11 @@ export async function getNewsArticles(params: {
 }) {
   const url = API_URLS.NEWS_API || "";
   const response = await fetchData<NewsApiResponse>(url, {
-    q: "apple",
+    q: params.searchQuery || "apple",
     pageSize: 10,
     language: "en",
-    category: params.category || "",
-    sources: params.source || "",
     apiKey: API_KEYS.NEWS_API,
+    "show-fields": "thumbnail",
   });
   return response.articles;
 }

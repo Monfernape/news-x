@@ -21,15 +21,14 @@ export async function getNYTNewsArticles(params: {
 }) {
   const url = API_URLS.NYT_API || "";
   const response = await fetchData<NYTNewsApiResponse>(
-    `${url}/articlesearch.json`,
+    `${url}/search/v2/articlesearch.json`,
     {
       q: params.searchQuery || "",
-      category: params.category || "",
-      sources: params.source || "",
       begin_date: "20240801",
       end_date: "20240802",
       "api-key": API_KEYS.NYT_API,
       pageSize: 10,
+      "show-fields": "thumbnail",
     }
   );
   return response.response.docs;
@@ -40,5 +39,18 @@ export async function getNYTNewsArticleById(id: string) {
   const response = await fetchData<NYTNewsApiResponse>(url, {
     "api-key": API_KEYS.NYT_API,
   });
+  return response.response.docs;
+}
+
+export async function getNYTTrendingArticles() {
+  const url = API_URLS.NYT_API || "";
+  const response = await fetchData<NYTNewsApiResponse>(
+    `${url}/mostpopular/v2/viewed/7.json`,
+    {
+      "api-key": API_KEYS.NYT_API,
+      pageSize: 10,
+      "show-fields": "thumbnail",
+    }
+  );
   return response.response.docs;
 }

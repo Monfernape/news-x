@@ -1,8 +1,8 @@
 import React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
-import { Card } from "./ui/card";
-import { ArrowRightIcon } from "./icons/ArrowRightIcon";
+import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import { Card } from "./ui/card";
 
 interface Props {
   className?: string;
@@ -10,13 +10,8 @@ interface Props {
 
 export const MobileCategory = ({ className }: Props) => {
   return (
-    <Card className="flex flex-col gap-2">
-      <div className="flex justify-between items-center border-b p-4">
-        <p className="font-poppin text-base text-medium">Category</p>
-        <ArrowRightIcon />
-      </div>
+    <Card className={`flex flex-col gap-2 ${className}`}>
       <Carousel
-        className={`${className}`}
         plugins={[
           Autoplay({
             delay: 2000,
@@ -27,7 +22,15 @@ export const MobileCategory = ({ className }: Props) => {
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index}>
               <div className="flex gap-3 p-4">
-                <div className="rounded-md bg-primary w-10 h-10"></div>
+                <div className="rounded-md w-10 h-10 flex-shrink-0 overflow-hidden">
+                  <Image
+                    src={""}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="h-full object-fill"
+                  />
+                </div>
                 <div className="flex flex-col gap-1">
                   <span className="font-poppin text-sm font-mediuam text-font-light">
                     Category Name
