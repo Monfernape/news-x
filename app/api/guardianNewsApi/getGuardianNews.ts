@@ -16,27 +16,26 @@ interface GuardianNewsApiResponse {
 
 export async function getGuardianNewsArticles(params: {
   searchQuery?: string;
-  category?: string;
-  source?: string;
 }) {
-  const url = API_URLS.GUARDIAN_API || "";
+  const url = `${API_URLS.GUARDIAN_API}/search` || "";
   const response = await fetchData<GuardianNewsApiResponse>(url, {
     q: params.searchQuery || "",
-    category: params.category || "",
-    sources: params.source || "",
     "api-key": API_KEYS.GUARDIAN_API,
-    section: "news",
-    "show-fields": "byline,thumbnail,trailText",
+    "show-fields": "thumbnail",
   });
   return response.response.results;
 }
 
 export async function getGuardianNewsArticleById(id: string) {
   const url = `${API_URLS.GUARDIAN_API}/${id}`;
-  const response = await fetchData<GuardianNewsApiResponse>(url, {
+  const response = await fetchData<any>(url, {
     "api-key": API_KEYS.GUARDIAN_API,
-    "show-fields": "byline,thumbnail,trailText",
+    "show-fields": "thumbnail",
+    "show-related": "true",
   });
 
-  return response.response.results;
+  return {
+    content: response.response.content,
+    relatedContent: response.response.relatedContent,
+  };
 }

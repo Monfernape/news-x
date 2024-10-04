@@ -4,6 +4,7 @@ export interface NewsArticle {
     category?: string;
     source: string;
     publishedAt: string;
+    imageUrl?: string;
   }
   
   export interface FilterOptions {

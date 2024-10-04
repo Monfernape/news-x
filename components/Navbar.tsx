@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { SearchIcon } from "./icons/SearchIcon";
+import Link from "next/link";
 
 export const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -30,7 +31,9 @@ export const Navbar = () => {
       }`}
     >
       <div className="p-4 flex justify-between gap-4 max-w-7xl mx-auto">
-        <div className="flex">Home</div>
+        <Link href="/" className="font-poppin font-medium text-base">
+          Home
+        </Link>
         <div className="relative flex items-center">
           <Input placeholder="Search" className="w-60" />
           <div className="absolute right-4">

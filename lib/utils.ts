@@ -43,3 +43,8 @@ export function searchNews(
     article.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 }
+
+// Truncating long titles
+export function addEllipsis(title: string, limit: number) {
+  return `${title.slice(0, limit)}${title.length >= limit ? '...' : ''}`;
+}
