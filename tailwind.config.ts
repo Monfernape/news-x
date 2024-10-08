@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        poppin: ["Poppins", "sans-serif"],
+        news: ["nyt-imperial,georgia,'times new roman',times,Songti SC,simsun,serif"],
       },
       colors: {
         background: "hsl(var(--background))",

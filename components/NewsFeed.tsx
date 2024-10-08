@@ -5,32 +5,36 @@ import { MobileCategory } from "./MobileCategory";
 import { Posts } from "./Posts";
 import { Category } from "./Category";
 import { useNewsContext } from "@/app/context/NewsContext";
-import { Articles } from "@/lib/types";
+import { Articles, Data, GuardianArticleSchema } from "@/lib/types";
 import { fetchNewsData } from "@/lib/fetchNews";
 import { debounceFn } from "@/lib/utils";
+import { Label } from "./ui/label";
 
 type Props = {
-  articlesList: Articles;
+  articlesList: GuardianArticleSchema[];
 };
 
 export const NewsFeed = ({ articlesList }: Props) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const { searchQuery } = useNewsContext();
+  const { searchQuery, fromDate, toDate, section } = useNewsContext();
 
   const [articles, setArticles] = useState(articlesList);
 
   async function handleUniversalSearch() {
-    const articlesList = await fetchNewsData(searchQuery);
+    const articlesList = await fetchNewsData(
+      searchQuery,
+      fromDate !== "" ? fromDate : undefined,
+      toDate !== "" ? toDate : undefined,
+      section !== "" ? section : undefined
+    );
 
-    setArticles(articlesList);
+    setArticles(articlesList as unknown as GuardianArticleSchema[]);
   }
 
   useEffect(() => {
-    if (searchQuery) {
-      debounceFn(handleUniversalSearch, 500)();
-    }
+    debounceFn(handleUniversalSearch, 500)();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery]);
+  }, [searchQuery, fromDate, toDate, section]);
 
   useEffect(() => {
     // Handler to call on window resize
@@ -49,8 +53,20 @@ export const NewsFeed = ({ articlesList }: Props) => {
   return (
     <div className="flex gap-4 bg-primary-dark py-4 flex-wrap md:flex-nowrap">
       <div className="w-full flex flex-col gap-4">
-        <Trending articles={articles.newsApiArticles} />
-        {isMobile && <MobileCategory />}
+        <Label className="font-news font-semibold text-xl">Latets</Label>
+        <Trending />
+        <hr className="bg-black h-1" />
+        {isMobile && (
+          <>
+            <Label className="font-news font-semibold text-xl -mb-3">
+              Sports
+            </Label>
+            <MobileCategory />
+          </>
+        )}
+        <Label className="font-news font-semibold text-xl -mb-3">
+          Features
+        </Label>
         <Posts articles={articles} />
       </div>
       {!isMobile && <Category />}

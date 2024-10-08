@@ -17,12 +17,20 @@ interface GuardianNewsApiResponse {
 
 export async function getGuardianNewsArticles(params: {
   searchQuery?: string;
+  fromDate?: string;
+  toDate?: string;
+  section?: string;
+  orderBy?: string;
 }) {
   const url = `${API_URLS.GUARDIAN_API}/search` || "";
   const response = await fetchData<GuardianNewsApiResponse>(url, {
     q: params.searchQuery || "",
+    "from-date": params.fromDate,
+    "to-date": params.toDate,
+    section: params.section,
     "api-key": API_KEYS.GUARDIAN_API,
     "show-fields": "thumbnail",
+    "ordery-by": params.orderBy,
   });
   return response.response.results;
 }
@@ -31,8 +39,10 @@ export async function getGuardianNewsArticleById(id: string) {
   const url = `${API_URLS.GUARDIAN_API}/${id}`;
   const response = await fetchData<Data>(url, {
     "api-key": API_KEYS.GUARDIAN_API,
-    "show-fields": "thumbnail",
+    "show-fields": "thumbnail,body,headline",
     "show-related": "true",
+    "show-blocks": "body",
+    "show-tags": 'all'
   });
 
   return {

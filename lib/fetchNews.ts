@@ -1,33 +1,25 @@
 // lib/fetchNews.ts
 
-import { getNewsArticles } from "@/app/api/newsApi/getNews";
 import { getGuardianNewsArticles } from "@/app/api/guardianNewsApi/getGuardianNews";
-import { getNYTNewsArticles } from "@/app/api/nytNewsApi/getNYTNews";
+import { GuardianArticleSchema } from "./types";
 
-export async function fetchNewsData(searchQuery: string) {
+export async function fetchNewsData(
+  searchQuery: string,
+  fromDate?: string,
+  toDate?: string,
+  section?: string
+) {
   try {
-    // Fetch data from all sources in parallel
-    const [newsApiArticles, guardianArticles, nytArticles] = await Promise.all([
-      getNewsArticles({
-        searchQuery,
-      }),
-      getGuardianNewsArticles({
-        searchQuery,
-      }),
-      getNYTNewsArticles({
-        searchQuery,
-      }),
-    ]);
+    const guardianArticles = await getGuardianNewsArticles({
+      searchQuery,
+      fromDate,
+      toDate,
+      section,
+    });
 
-    const combinedArticles = {
-      newsApiArticles,
-      guardianArticles,
-      nytArticles,
-    };
-
-    return combinedArticles;
+    return guardianArticles as GuardianArticleSchema[];
   } catch (error) {
     console.error("Failed to fetch news data", error);
-    return { newsApiArticles: [], guardianArticles: [], nytArticles: [] };
+    return [];
   }
 }

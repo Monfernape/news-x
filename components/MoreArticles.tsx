@@ -3,10 +3,10 @@ import { PostCard } from "./PostCard";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRouter } from "next/navigation";
-import { Data } from "@/lib/types";
+import { Data, GuardianArticleSchema } from "@/lib/types";
 
 interface Props {
-  data: Data[];
+  data: GuardianArticleSchema[];
 }
 
 export const MoreArticles = ({ data }: Props) => {
@@ -18,7 +18,7 @@ export const MoreArticles = ({ data }: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-lg font-semibold font-poppin">Related Artticles</p>
+      <p className="text-lg font-semibold font-news">Related Artticles</p>
       <Carousel
         plugins={[
           Autoplay({
@@ -26,19 +26,15 @@ export const MoreArticles = ({ data }: Props) => {
           }),
         ]}
       >
-        <CarouselContent>
+        <CarouselContent >
           {data?.map((item, index: number) => (
             <CarouselItem
               key={index}
               className="pl-1 md:basis-1/2 lg:basis-1/3"
-              onClick={() => viewPost(item.id)}
+              onClick={() => viewPost(item.id || '')}
             >
               <PostCard
-                article={{
-                  title: item.webTitle,
-                  category: "Category",
-                  imageUrl: item?.fields?.thumbnail ?? "",
-                }}
+                article={item}
               />
             </CarouselItem>
           ))}
