@@ -1,21 +1,36 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
-import { Data } from "@/lib/types";
-import { getNewsApiFormattedData } from "@/lib/utils";
 import Autoplay from "embla-carousel-autoplay";
+import { getGuardianNewsArticles } from "@/app/api/guardianNewsApi/getGuardianNews";
+import { useRouter } from "next/navigation";
+import { GuardianArticleSchema } from "@/lib/types";
 
 interface Props {
   className?: string;
-  articles: Data[];
 }
 
-export const Trending = ({ className, articles }: Props) => {
-  const trendingArticles =
-    useMemo(() => {
-      return getNewsApiFormattedData(articles);
-    }, [articles]) || [];
+export const Trending = ({ className }: Props) => {
+  const [data, setData] = useState<GuardianArticleSchema[]>([]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    getGuardianNewsArticles({
+      searchQuery: "news",
+      orderBy: "newest",
+    }).then((res) => {
+      setData(res as unknown as GuardianArticleSchema[]);
+    });
+  }, []);
+
+  const viewPost = (id: string) => {
+    router.push(`/post/${id}`);
+  };
+
+  console.log("Trending", data);
+
   return (
     <Carousel
       className={`${className}`}
@@ -26,13 +41,13 @@ export const Trending = ({ className, articles }: Props) => {
       ]}
     >
       <CarouselContent>
-        {trendingArticles.map((article, index) => (
-          <CarouselItem key={index}>
+        {data?.map((article, index) => (
+          <CarouselItem key={index} onClick={() => viewPost(article.id || '')}>
             <Card className="h-60 md:h-80 relative rounded overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-primary after:z-10 after:opacity-40">
-              {article?.imageUrl ? (
+              {article?.fields?.thumbnail ? (
                 <Image
-                  src={article.imageUrl}
-                  alt={article.title}
+                  src={article.fields?.thumbnail}
+                  alt={article.webTitle}
                   sizes="100vw"
                   width={500}
                   height={300}
@@ -47,9 +62,9 @@ export const Trending = ({ className, articles }: Props) => {
               )}
             </Card>
             <div className="absolute bottom-4 px-4 w-full z-10">
-              <p className="font-poppin text-lg text-white">{article.title}</p>
-              <p className="font-poppin text-sm text-white">
-                {article.category}
+              <p className="font-news text-xl text-white">{article.webTitle}</p>
+              <p className="font-news text-sm text-white">
+                {article.sectionName}
               </p>
             </div>
           </CarouselItem>

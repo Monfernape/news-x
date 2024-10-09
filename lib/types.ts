@@ -1,12 +1,3 @@
-export interface NewsArticle {
-  title: string;
-  description?: string;
-  category?: string;
-  source?: string;
-  publishedAt?: string;
-  imageUrl?: string;
-}
-
 export interface FilterOptions {
   category?: string;
   source?: string;
@@ -19,7 +10,27 @@ export type Data = {
 };
 
 export interface Articles {
-  newsApiArticles: Data[];
   guardianArticles: Data[];
-  nytArticles: Data[];
 }
+
+export interface GuardianArticleSchema {
+  id?: string;
+  webTitle: string;
+  sectionName?: string;
+  webPublicationDate?: string;
+  fields?: {
+    thumbnail: string;
+    body?: string;
+  };
+  tags?: []
+}
+
+export interface GuardianArticleViewSchema {
+  relatedContent?: GuardianArticleSchema[];
+  content: GuardianArticleSchema;
+}
+
+export type DateRange = {
+  from: Date | undefined;
+  to?: Date | undefined;
+};

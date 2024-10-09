@@ -1,25 +1,20 @@
 import React, { useMemo } from "react";
 import { PostCard } from "./PostCard";
-import { Articles } from "@/lib/types";
-import {
-  getGuardianNewsFormattedData,
-  getNewsApiFormattedData,
-  getNYTNewsFormattedData,
-} from "@/lib/utils";
+import { Articles, Data, GuardianArticleSchema } from "@/lib/types";
+import { getGuardianNewsFormattedData } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { LoadingWrapper } from "./ui/LoadingWrapper";
 
 interface Props {
   className?: string;
-  articles: Articles;
+  articles: GuardianArticleSchema[];
 }
 
 export const Posts = ({ className, articles }: Props) => {
   const articlesList =
     useMemo(() => {
       const formattedNewList = [
-        ...getNewsApiFormattedData(articles.newsApiArticles),
-        ...getGuardianNewsFormattedData(articles.guardianArticles),
-        ...getNYTNewsFormattedData(articles.nytArticles),
+        ...getGuardianNewsFormattedData(articles),
       ];
 
       return formattedNewList;
@@ -32,16 +27,21 @@ export const Posts = ({ className, articles }: Props) => {
   };
 
   return (
-    <div className={`flex flex-wrap ${className}`}>
-      {articlesList?.map((article, i) => (
-        <div
-          key={i}
-          className="w-full md:w-6/12 lg:w-4/12 p-2"
-          onClick={() => viewPost(article?.id as string)}
-        >
-          <PostCard article={article} />
-        </div>
-      ))}
-    </div>
+    <LoadingWrapper
+      isLoading={articlesList?.length === 0}
+      hideContentWhileLoading
+    >
+      <div className={`flex flex-wrap ${className}`}>
+        {articlesList?.map((article, i) => (
+          <div
+            key={i}
+            className="w-full md:w-6/12 lg:w-4/12 p-2"
+            onClick={() => viewPost(article?.id as string)}
+          >
+            <PostCard article={article} />
+          </div>
+        ))}
+      </div>
+    </LoadingWrapper>
   );
 };
