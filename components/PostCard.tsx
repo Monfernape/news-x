@@ -9,11 +9,7 @@ interface Props {
 }
 
 export const PostCard = ({ className, article }: Props) => {
-
   const { fields, webTitle, sectionName } = article;
-
-  console.log("PostCard", article);
-
   return (
     <Card
       className={`rounded-lg p-2 h-full group overflow-hidden cursor-pointer ${className}`}

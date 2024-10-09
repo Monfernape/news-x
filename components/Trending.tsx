@@ -29,8 +29,6 @@ export const Trending = ({ className }: Props) => {
     router.push(`/post/${id}`);
   };
 
-  console.log("Trending", data);
-
   return (
     <Carousel
       className={`${className}`}
@@ -42,7 +40,7 @@ export const Trending = ({ className }: Props) => {
     >
       <CarouselContent>
         {data?.map((article, index) => (
-          <CarouselItem key={index} onClick={() => viewPost(article.id || '')}>
+          <CarouselItem key={index} onClick={() => viewPost(article.id || "")}>
             <Card className="h-60 md:h-80 relative rounded overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-primary after:z-10 after:opacity-40">
               {article?.fields?.thumbnail ? (
                 <Image

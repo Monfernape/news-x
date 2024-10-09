@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Deatil() {
+export default function NewsDetailPage() {
   const [data, setData] = useState<GuardianArticleViewSchema>();
 
   const { id } = useParams();

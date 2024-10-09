@@ -5,7 +5,7 @@ import { MobileCategory } from "./MobileCategory";
 import { Posts } from "./Posts";
 import { Category } from "./Category";
 import { useNewsContext } from "@/app/context/NewsContext";
-import { Articles, Data, GuardianArticleSchema } from "@/lib/types";
+import { GuardianArticleSchema } from "@/lib/types";
 import { fetchNewsData } from "@/lib/fetchNews";
 import { debounceFn } from "@/lib/utils";
 import { Label } from "./ui/label";
@@ -15,7 +15,9 @@ type Props = {
 };
 
 export const NewsFeed = ({ articlesList }: Props) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
   const { searchQuery, fromDate, toDate, section } = useNewsContext();
 
   const [articles, setArticles] = useState(articlesList);
