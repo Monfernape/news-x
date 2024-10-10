@@ -1,9 +1,7 @@
-"use server";
-import { fetchNewsData } from "@/lib/fetchNews";
-import { NewsFeed } from "@/components/NewsFeed";
+import { NewsFeed } from "@/app/components/NewsFeed";
+import { getGuardianNewsArticles } from "@/lib/api.service";
 
 export default async function Home() {
-  const articlesList = await fetchNewsData('');
-
-  return <NewsFeed articlesList={articlesList} />;
+  const articles = await getGuardianNewsArticles({ searchQuery: "" });
+  return <NewsFeed articles={articles} />;
 }

@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Card } from "./ui/card";
-import { getGuardianNewsArticles } from "@/app/api/guardianNewsApi/getGuardianNews";
+import { Card } from "../../components/ui/card";
 import { addEllipsis } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Label } from "./ui/label";
+import { Label } from "../../components/ui/label";
+import { getGuardianNewsArticles } from "@/lib/api.service";
 
 interface Props {
   className?: string;
@@ -21,7 +21,7 @@ interface SectionData {
 }
 
 export const Category = ({ className }: Props) => {
-  const [data, setData] = useState<SectionData[]>([]);
+  const [newsCategory, setNewsCategory] = useState<SectionData[]>([]);
 
   const router = useRouter();
 
@@ -29,7 +29,7 @@ export const Category = ({ className }: Props) => {
     getGuardianNewsArticles({
       searchQuery: "sport",
     }).then((res) => {
-      setData(res as unknown as SectionData[]);
+      setNewsCategory(res as unknown as SectionData[]);
     });
   }, []);
 
@@ -45,7 +45,7 @@ export const Category = ({ className }: Props) => {
         className={`w-80 rounded bg-white flex-shrink-0 self-start ${className}`}
       >
         <div className="flex flex-col gap-4 my-4 px-2 overflow-auto">
-          {data?.slice(0, 6)?.map((item, index) => (
+          {newsCategory?.slice(0, 6)?.map((item, index) => (
             <div
               key={index}
               className="flex gap-3 cursor-pointer"

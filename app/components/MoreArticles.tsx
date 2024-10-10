@@ -1,15 +1,15 @@
 import React from "react";
 import { PostCard } from "./PostCard";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../../components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRouter } from "next/navigation";
-import { Data, GuardianArticleSchema } from "@/lib/types";
+import {  GuardianArticleSchema } from "@/lib/types";
 
 interface Props {
-  data: GuardianArticleSchema[];
+  newsArticles: GuardianArticleSchema[];
 }
 
-export const MoreArticles = ({ data }: Props) => {
+export const MoreArticles = ({ newsArticles }: Props) => {
   const router = useRouter();
 
   const viewPost = (id: string) => {
@@ -27,7 +27,7 @@ export const MoreArticles = ({ data }: Props) => {
         ]}
       >
         <CarouselContent >
-          {data?.map((item, index: number) => (
+          {newsArticles?.map((item, index: number) => (
             <CarouselItem
               key={index}
               className="pl-1 md:basis-1/2 lg:basis-1/3"

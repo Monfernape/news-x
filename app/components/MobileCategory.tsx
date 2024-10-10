@@ -1,13 +1,15 @@
+'use client'
 import React, { useEffect, useState } from "react";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../../components/ui/carousel";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
-import { Card } from "./ui/card";
+import { Card } from "../../components/ui/card";
 import { useRouter } from "next/navigation";
-import { getGuardianNewsArticles } from "@/app/api/guardianNewsApi/getGuardianNews";
-import { addEllipsis } from "@/lib/utils";
 
-interface SectionData {
+import { addEllipsis } from "@/lib/utils";
+import { getGuardianNewsArticles } from "@/lib/api.service";
+
+interface MobileCategory {
   id: string;
   webTitle: string;
   sectionName: string;
@@ -21,7 +23,7 @@ interface Props {
 }
 
 export const MobileCategory = ({ className }: Props) => {
-  const [data, setData] = useState<SectionData[]>([]);
+  const [mobileCategory, setmobileCategory] = useState<MobileCategory[]>([]);
 
   const router = useRouter();
 
@@ -29,7 +31,7 @@ export const MobileCategory = ({ className }: Props) => {
     getGuardianNewsArticles({
       searchQuery: "sport",
     }).then((res) => {
-      setData(res as unknown as SectionData[]);
+      setmobileCategory(res as unknown as MobileCategory[]);
     });
   }, []);
 
@@ -47,9 +49,9 @@ export const MobileCategory = ({ className }: Props) => {
         ]}
       >
         <CarouselContent>
-          {data?.slice(0, 6)?.map((item, index) => (
+          {mobileCategory?.slice(0, 6)?.map((item, index) => (
             <CarouselItem key={index}>
-              <div className="flex gap-3 p-4" onClick={() => viewPost(item.id)}>
+              <div className="flex gap-3 p-4 items-center" onClick={() => viewPost(item.id)}>
                 <div className="rounded-md w-10 h-10 flex-shrink-0 overflow-hidden">
                   <Image
                     src={item.fields.thumbnail}

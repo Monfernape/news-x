@@ -1,17 +1,10 @@
-import { API_KEYS, API_URLS } from "@/lib/constants";
-import { Data } from "@/lib/types";
+import { GUARDIAN_API_KEY, GUARDIAN_BASE_URL } from "@/lib/constants";
+import { GuardianArticles, GuardianArticleViewSchema, NewsData } from "@/lib/types";
 import { fetchData } from "@/lib/utils";
 
 interface GuardianNewsApiResponse {
   response: {
-    results: {
-      webTitle: string;
-      fields: {
-        byline: string;
-        thumbnail: string;
-        trailText: string;
-      };
-    }[];
+    results: GuardianArticles[];
   };
 }
 
@@ -22,23 +15,23 @@ export async function getGuardianNewsArticles(params: {
   section?: string;
   orderBy?: string;
 }) {
-  const url = `${API_URLS.GUARDIAN_API}/search` || "";
+  const url = `${GUARDIAN_BASE_URL}/search`;
   const response = await fetchData<GuardianNewsApiResponse>(url, {
     q: params.searchQuery || "",
     "from-date": params.fromDate,
     "to-date": params.toDate,
     section: params.section,
-    "api-key": API_KEYS.GUARDIAN_API,
+    "api-key": GUARDIAN_API_KEY,
     "show-fields": "thumbnail",
-    "ordery-by": params.orderBy,
+    "order-by": params.orderBy,
   });
   return response.response.results;
 }
 
-export async function getGuardianNewsArticleById(id: string) {
-  const url = `${API_URLS.GUARDIAN_API}/${id}`;
-  const response = await fetchData<Data>(url, {
-    "api-key": API_KEYS.GUARDIAN_API,
+export async function getGuardianNewsArticleById(id: string): Promise<GuardianArticleViewSchema> {
+  const url = `${GUARDIAN_BASE_URL}/${id}`;
+  const response = await fetchData<NewsData>(url, {
+    "api-key": GUARDIAN_API_KEY,
     "show-fields": "thumbnail,body,headline",
     "show-related": "true",
     "show-blocks": "body",

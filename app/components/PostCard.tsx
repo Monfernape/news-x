@@ -1,11 +1,11 @@
 import React from "react";
-import { Card } from "./ui/card";
+import { Card } from "../../components/ui/card";
 import Image from "next/image";
-import { GuardianArticleSchema } from "@/lib/types";
+import {  PostArticles } from "@/lib/types";
 
 interface Props {
   className?: string;
-  article: GuardianArticleSchema;
+  article: PostArticles;
 }
 
 export const PostCard = ({ className, article }: Props) => {
@@ -21,7 +21,7 @@ export const PostCard = ({ className, article }: Props) => {
         width={300}
         height={200}
       />
-      <div className="py-4 flex flex-col gap-2">
+      <div className="p-4 flex flex-col gap-2">
         <p className="font-news text-sm font-mediuam text-font-light">
           {sectionName ?? ""}
         </p>

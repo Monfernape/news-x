@@ -1,60 +1,72 @@
+"use client";
 import React, { useState } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Calendar } from "./ui/calendar";
-import { addDays, format, set } from "date-fns";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+} from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { addDays, format } from "date-fns";
+import { DateRange } from "react-day-picker";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { useNewsContext } from "@/app/context/NewsContext";
-import { DateRange } from "@/lib/types";
+import { FilterIcon } from "@/components/icons/FilterIcon";
 
-export const FilterModal = () => {
+const SearchAndDatePickerModal = () => {
   const [value, setValue] = useState("");
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
   });
 
-  const { searchQuery, setSearchQuery } = useNewsContext();
-
+  const router = useRouter();
+  const applyFilter = () => {
+    router.replace(
+      `/search?query=${value}&fromDate=${format(
+        date?.from || new Date(),
+        "yyyy-MM-dd"
+      )}&toDate=${date?.to ? format(date?.to, "yyyy-MM-dd") : ""}`
+    );
+  };
   const sectionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
-
-  const applyFilter = () => {
-    setSearchQuery({
-      query: searchQuery,
-      fromDate: format(date?.from || new Date(), "yyyy-MM-dd"),
-      toDate: date?.to ? format(date?.to, "yyyy-MM-dd") : "",
-      section: value,
-    });
-    setOpen(false);
-  };
-
   return (
-    <Dialog open={open}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" onClick={() => setOpen(true)}>Filter</Button>
+       <div className="flex gap-4">
+       <Button variant="outline">
+       <div className="flex gap-4 justify-center items-center">
+       <p>
+          Search
+        </p>
+         <FilterIcon />
+       </div>
+       </Button>
+      
+       </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className=" w-auto  sm:max-w-auto rounded p-4">
         <DialogHeader>
           <DialogTitle>Filter Post</DialogTitle>
           <DialogDescription>Filter the post by date</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
           <div className="flex flex-col gap-4">
-            <Label htmlFor="name">Section</Label>
+            <Label htmlFor="name">Search</Label>
             <Input
               id="section"
               value={value}
@@ -96,9 +108,15 @@ export const FilterModal = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={applyFilter}>Apply</Button>
+          <DialogClose asChild>
+            <Button type="submit" onClick={applyFilter}>
+              Apply
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
+
+export default SearchAndDatePickerModal;
