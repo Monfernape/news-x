@@ -45,9 +45,9 @@ export const Category = ({ className }: Props) => {
         className={`w-80 rounded bg-white flex-shrink-0 self-start ${className}`}
       >
         <div className="flex flex-col gap-4 my-4 px-2 overflow-auto">
-          {newsCategory?.slice(0, 6)?.map((item, index) => (
+          {newsCategory?.slice(0, 6)?.map((item, ) => (
             <div
-              key={index}
+              key={item.id}
               className="flex gap-3 cursor-pointer"
               onClick={() => viewPost(item.id)}
             >

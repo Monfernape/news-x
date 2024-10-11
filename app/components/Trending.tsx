@@ -7,7 +7,6 @@ import {
   CarouselItem,
 } from "../../components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useRouter } from "next/navigation";
 import { GuardianArticleSchema } from "@/lib/types";
 import { getGuardianNewsArticles } from "@/lib/api.service";
 import Link from "next/link";
@@ -39,8 +38,9 @@ export const Trending = ({ className }: Props) => {
     >
       <CarouselContent>
         {trendingNews?.map((article) => (
-          <Link href={`/post/${article.id}`} key={article.id}>
+         
             <CarouselItem>
+               <Link href={`/post/${article.id}`} key={article.id}>
               <Card className="h-60 md:h-80 relative rounded overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-primary after:z-10 after:opacity-40">
                 {article?.fields?.thumbnail ? (
                   <Image
@@ -67,8 +67,9 @@ export const Trending = ({ className }: Props) => {
                   {article.sectionName}
                 </p>
               </div>
+              </Link>
             </CarouselItem>
-          </Link>
+         
         ))}
       </CarouselContent>
     </Carousel>

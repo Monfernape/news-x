@@ -39,7 +39,7 @@ export const Posts = ({ className, articles }: Props) => {
     <div className={`flex flex-wrap ${className}`}>
       {articlesList?.map((article, i) => (
         <div
-          key={i}
+          key={article.id}
           className="w-full md:w-6/12 lg:w-4/12 p-2"
           onClick={() => viewPost(article?.id as string)}
         >

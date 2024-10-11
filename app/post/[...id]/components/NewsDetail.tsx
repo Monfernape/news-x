@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useMemo } from "react";
 import { Label } from "@radix-ui/react-label";
 import Image from "next/image";

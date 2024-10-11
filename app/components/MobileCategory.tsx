@@ -50,7 +50,7 @@ export const MobileCategory = ({ className }: Props) => {
       >
         <CarouselContent>
           {mobileCategory?.slice(0, 6)?.map((item, index) => (
-            <CarouselItem key={index}>
+            <CarouselItem key  = {item.id}>
               <div className="flex gap-3 p-4 items-center" onClick={() => viewPost(item.id)}>
                 <div className="rounded-md w-10 h-10 flex-shrink-0 overflow-hidden">
                   <Image

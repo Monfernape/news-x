@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { addDays, format } from "date-fns";
+import {  format, subDays } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -28,8 +28,8 @@ import { FilterIcon } from "@/components/icons/FilterIcon";
 const SearchAndDatePickerModal = () => {
   const [value, setValue] = useState("");
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: subDays(new Date(Date.now()), 7),
+    to: new Date(Date.now()),
   });
 
   const router = useRouter();

@@ -10,11 +10,11 @@ export const Navbar = () => {
 
   // Function to handle scroll event
   const handleScroll = () => {
-    const scrollTop = window.scrollY; // Get current scroll position
-    setIsSticky(scrollTop > 20); // Set sticky state if scrolled more than 50px
+    const scrollTop = window.scrollY; 
+    setIsSticky(scrollTop > 20); 
   };
 
-  // Set up scroll event listener on mount
+  
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
