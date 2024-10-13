@@ -1,5 +1,5 @@
 ### NewsX
-NewsX is a fun little attempt at learning Next 14 with new features such as Server Components, Server Actions and Caching in mind. The project uses app directory as entry point and supports home page, search page and news details page. See live deployment [here](https://news-x-tau.vercel.app/)
+NewsX is a fun little attempt at learning Next 14 with new features such as Server Components, Server Actions and Caching in mind. The project uses app directory as entry point and supports home page, search page and news details page. See live deployment [here](https://news-x-tau.vercel.app/).
 
 ### Tech stack
 Under the hood, NewsX uses following technologies:
